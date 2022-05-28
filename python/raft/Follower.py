@@ -3,7 +3,11 @@ import logging
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', datefmt='%H:%M:%S', level=logging.INFO)
 
-
+# Follower(Node(0, localhost:5000))
+# Follower(Node(1, localhost:5001))
+# Follower(Node(2, localhost:5002))
+# Follower(Node(3, localhost:5003))
+# Follower(Node(4, localhost:5004))
 class Follower(NodeState):
     def __init__(self, node):
         super(Follower, self).__init__(node)

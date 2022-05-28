@@ -8,6 +8,11 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', datefmt='
 VoteResult = collections.namedtuple('VoteResult', ['term', 'vote_granted', 'id'])
 
 
+# NodeState(Node(0, localhost:5000))
+# NodeState(Node(1, localhost:5001))
+# NodeState(Node(2, localhost:5002))
+# NodeState(Node(3, localhost:5003))
+# NodeState(Node(4, localhost:5004))
 class NodeState:
     def __init__(self, node=None):
         self.cluster = Cluster()
@@ -23,6 +28,14 @@ class NodeState:
     # rule:
     #   1. return false if candidate.term < current_term
     #   2. return true if (voteFor is None or voteFor==candidate.id) and candidate's log is newer than receiver's
+
+    # 处理其他节点发送的选举请求，通过判断任期进行投票
+    # vote_request{
+    #     "candidate_id" = candidate.id
+    #     "term" = candidate.current_term
+    #     "last_log_index" = 0
+    #     "last_log_term" = 0
+    # }
     def vote(self, vote_request):
         term = vote_request['term']
         candidate_id = vote_request['candidate_id']

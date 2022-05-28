@@ -21,6 +21,12 @@ class VoteRequest:
                           sort_keys=True, indent=4)
 
 
+# Follower(Node(0, localhost:5000))
+# Follower(Node(1, localhost:5001))
+# Follower(Node(2, localhost:5002))
+# Follower(Node(3, localhost:5003))
+# Follower(Node(4, localhost:5004))
+# Candidate(Follower(Node(0, localhost:5000)))
 class Candidate(NodeState):
     """ The state of candidate
 
@@ -44,6 +50,7 @@ class Candidate(NodeState):
         self.followers = [peer for peer in self.cluster if peer != self.node]
         self.vote_for = self.id  # candidate always votes itself
 
+    # 向其他节点发送选举请求
     def elect(self):
         """ When become to candidate and start to elect:
             1. term + 1
@@ -63,10 +70,11 @@ class Candidate(NodeState):
             ]
             for response in grequests.imap(posts):
                 logging.info(f'{self} got vote result: {response.status_code}: {response.json()}')
-                result = response.json()
+                result = response.json()  # VoteResult(False, self.current_term, self.id)
                 if result[0]:  # vote_granted
                     self.votes.append(result[2])  # id
 
+    # 判断自己是否赢得选举
     def win(self):
         return len(self.votes) > len(self.cluster) / 2
 
