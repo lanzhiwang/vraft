@@ -48,6 +48,8 @@ class Candidate(NodeState):
         self.votes = []
         self.entries = follower.entries
         self.followers = [peer for peer in self.cluster if peer != self.node]
+
+        # 该节点是 Candidate 节点，他会先投自己一票
         self.vote_for = self.id  # candidate always votes itself
 
     # 向其他节点发送选举请求

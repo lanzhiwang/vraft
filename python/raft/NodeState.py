@@ -21,6 +21,7 @@ class NodeState:
         self.id = node.id
         self.current_term = 0
 
+        # 需要记录该节点是否在这个 term 内已经投过一票了，如果投过就不允许再投
         self.vote_for = None  # node.id of the voted candidate
 
     # input: candidate (id, current_term, lastLogIndex, lastLogTerm)
